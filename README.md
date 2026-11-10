@@ -1,4 +1,4 @@
-# stm32wb55_ble_write_characteristic
+# STM32wb55 (P Nucleo WB55 board) - BLE Write Characteristic Usage Example
 
 Configured the P Nucleo WB55 board for BLE with one service that has one write characteristic. The code was structured such that the BLE layer notifies the application layer when data is received. 
 
