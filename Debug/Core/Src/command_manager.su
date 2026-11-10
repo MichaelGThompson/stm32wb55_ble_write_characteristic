@@ -1,0 +1,5 @@
+../Core/Src/command_manager.c:4:6:handle_cmd_1	8	static
+../Core/Src/command_manager.c:14:6:handle_cmd_2	8	static
+../Core/Src/command_manager.c:23:6:handle_cmd_3	8	static
+../Core/Src/command_manager.c:32:6:handle_cmd_4	8	static
+../Core/Src/command_manager.c:41:6:execute_command	16	static
