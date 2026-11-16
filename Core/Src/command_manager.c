@@ -1,7 +1,7 @@
 #include "command_manager.h"
 #include "main.h"
 
-void handle_cmd_1(void) {
+void handle_cmd_10(void *arg) {
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, SET);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, RESET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, RESET);
@@ -11,7 +11,7 @@ void handle_cmd_1(void) {
 	BSP_LED_Off(LED_RED);
 }
 
-void handle_cmd_2(void) {
+void handle_cmd_20(void *arg) {
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, RESET);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, SET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, RESET);
@@ -20,7 +20,7 @@ void handle_cmd_2(void) {
 	BSP_LED_Off(LED_RED);
 }
 
-void handle_cmd_3(void) {
+void handle_cmd_30(void *arg) {
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, RESET);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, RESET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, SET);
@@ -29,7 +29,7 @@ void handle_cmd_3(void) {
 	BSP_LED_On(LED_RED);
 }
 
-void handle_cmd_4(void) {
+void handle_cmd_40(void *arg) {
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, RESET);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, RESET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, RESET);
@@ -38,14 +38,11 @@ void handle_cmd_4(void) {
 	BSP_LED_Off(LED_RED);
 }
 
-void execute_command(cmd_option_t option) {
-    if (option >= CMD_MAX_OPTIONS) {
-        // Handle error
-        printf("Error: Invalid command option!\n");
-        return;
-    }
-
-    if (cmd_vtable[option] != NULL) {
-        cmd_vtable[option]();
+void process_command(uint8_t cmd_id, void *arg) {
+    for (size_t i = 0; i < CMD_COUNT; i++) {
+        if (cmd_table[i].cmd_id == cmd_id) {
+            cmd_table[i].handler(arg);
+            return;
+        }
     }
 }

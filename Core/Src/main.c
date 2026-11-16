@@ -57,7 +57,7 @@
 void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
-static void My_Main_Processing_Task(void);
+static void Process_BLE_Command(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -124,7 +124,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  UTIL_SEQ_RegTask(1 << CFG_TASK_PROCESS_RX_DATA_ID, UTIL_SEQ_RFU, My_Main_Processing_Task);
+  UTIL_SEQ_RegTask(1 << CFG_TASK_PROCESS_RX_DATA_ID, UTIL_SEQ_RFU, Process_BLE_Command);
 
   while (1)
   {
@@ -216,27 +216,10 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-static void My_Main_Processing_Task(void)
+static void Process_BLE_Command(void)
 {
-
-    	uint8_t value = Custom_APP_Get_RxBuffer();
-    	// TODO: change this to the command pattern so the switch isn't required
-        switch (value) {
-        case 10:
-        	execute_command(CMD_OPTION_1);
-        	break;
-        case 20:
-        	execute_command(CMD_OPTION_2);
-        	break;
-        case 30:
-        	execute_command(CMD_OPTION_3);
-        	break;
-        case 40:
-        	execute_command(CMD_OPTION_4);
-        	break;
-        default:
-        	 // error state
-        }
+	uint8_t command = Custom_APP_Get_RxBuffer();
+	process_command(command, NULL);
 }
 /* USER CODE END 4 */
 

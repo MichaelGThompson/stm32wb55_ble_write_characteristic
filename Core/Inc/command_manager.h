@@ -10,29 +10,29 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stddef.h>
 
-typedef enum {
-    CMD_OPTION_1 = 0,
-    CMD_OPTION_2,
-    CMD_OPTION_3,
-	CMD_OPTION_4,
-    CMD_MAX_OPTIONS /* Used for bounds checking */
-} cmd_option_t;
+typedef void (*command_handler_t)(void *arg);
 
-typedef void (*cmd_handler_t)(void);
+typedef struct {
+    uint8_t cmd_id;
+	command_handler_t handler;
+} cmd_entry_t;
 
-void handle_cmd_1(void);
-void handle_cmd_2(void);
-void handle_cmd_3(void);
-void handle_cmd_4(void);
+void handle_cmd_10(void *arg);
+void handle_cmd_20(void *arg);
+void handle_cmd_30(void *arg);
+void handle_cmd_40(void *arg);
 
-static const cmd_handler_t cmd_vtable[CMD_MAX_OPTIONS] = {
-    [CMD_OPTION_1] = handle_cmd_1,
-    [CMD_OPTION_2] = handle_cmd_2,
-    [CMD_OPTION_3] = handle_cmd_3,
-	[CMD_OPTION_4] = handle_cmd_4
+static const cmd_entry_t cmd_table[] = {
+    { 10, handle_cmd_10 },
+    { 20, handle_cmd_20 },
+    { 30, handle_cmd_30 },
+    { 40, handle_cmd_40 }
 };
 
-void execute_command(cmd_option_t option);
+#define CMD_COUNT (sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+void process_command(uint8_t cmd_id, void *arg);
 
 #endif /* INC_COMMAND_MANAGER_H_ */
